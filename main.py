@@ -1,36 +1,44 @@
 import random
 
 
-def main():
-    options = {"rock": 0, "paper": 1, "scissors": 2}
-
+def get_user_choice(options: list[str]) -> str:
+    """Simple loop to get the user input or ask again if invalid response"""
     while True:
-        user_choice = input("Choose between `rock`, `paper` or `scissors`: ")
-        if user_choice not in options:
-            print("Invalid input, try again!")
+        user_choice = input("Choose between 'rock', 'paper' or 'scissors': ")
+
+        if user_choice in options:
+            return user_choice
         else:
-            break
+            print("Invalid input, try again!")
 
-    random_choice = random.choice(list(options.keys()))
 
-    result = (options.get(user_choice) - options.get(random_choice)) % 3
-    if result == 0:
-        print("The game is a tie!")
-    elif result == 1:
-        print("You win!")
-    elif result == 2:
-        print("You lose!")
+def eval_res(user_index: int, random_index: int) -> None:
+    """Evaluates and prints result based on the indexes of the choices"""
+    results = ["The game is a tie!", "You win!", "You lose!"]
+    res = (user_index - random_index) % 3
 
-    print(f"Your choice: {user_choice} \n"
-          f"enemy choice: {random_choice}")
+    print(results[res])
+
+
+def main() -> None:
+    """Main function with actual loop for game"""
+    options = ["rock", "paper", "scissors"]
 
     while True:
+        user_choice = get_user_choice(options)
+        random_choice = random.choice(options)
+
+        eval_res(options.index(user_choice), options.index(random_choice))
+
+        print(f"Your choice: {user_choice}\nenemy choice: {random_choice}")
+
         again = input("Again? y or n: ")
-        if again == "y":
-            main()
-        elif again == "n":
+
+        if again == "n":
             print("bye")
             break
+        elif again == "y":
+            pass
         else:
             print("invalid answer")
 
